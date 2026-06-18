@@ -1,0 +1,47 @@
+name = "vpp-worker"
+main = "src/index.ts"
+compatibility_date = "2026-05-19"
+
+[[durable_objects.bindings]]
+name = "RALLY_ROOM"
+class_name = "RallyRoom"
+
+# Free-plan Durable Objects require the SQLite storage backend, so the class is
+# registered with new_sqlite_classes. The DO's KV-style storage.get/put and the
+# WebSocket Hibernation API both work unchanged on SQLite-backed DOs.
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RallyRoom"]
+
+# KV namespace ID is set per environment after creation via:
+#   wrangler kv namespace create VPP_ARCHIVE
+# Replace the placeholder below with the returned id before first deploy.
+[[kv_namespaces]]
+binding = "VPP_ARCHIVE"
+id = "5c7958d01c544a9cb89be57e6e4647e2"
+
+# Purge all participants at rally end = 8:00 PM ET (data oblivion per the ToS).
+# ET is UTC-4 (EDT) or UTC-5 (EST), so 8 PM ET is 00:00 UTC in summer and
+# 01:00 UTC in winter. We trigger at both; scheduled() purges only at 20:00 ET
+# (the other trigger is a no-op), so it stays correct across DST.
+[triggers]
+crons = ["0 0 * * *", "0 1 * * *"]
+
+[vars]
+# Bumped to reseed a fresh room with the new 15-avatar set (old room used the
+# retired climate avatar IDs). Bump again any time you need a clean reseed.
+RALLY_ID = "current-3"
+# Demo seeding: when "true", an empty rally auto-fills with mock participants
+# so the crowd looks populated for demos. Set to "false" for production launch.
+SEED_ON_EMPTY = "true"
+# How many mock participants to seed an empty rally with (demo/scale testing).
+SEED_COUNT = "1000"
+
+# Production route: bind the worker to /api/* on the production domain so the
+# frontend (served by Cloudflare Pages on the same domain) can call /api/...
+# without CORS or cross-origin WebSocket issues. Worker routes take precedence
+# over Pages for matching paths, so /api/* → this worker and everything else →
+# the SPA. If you also serve www, add a second route for www.will-of-america.net.
+[[routes]]
+pattern = "will-of-america.net/api/*"
+zone_name = "will-of-america.net"
