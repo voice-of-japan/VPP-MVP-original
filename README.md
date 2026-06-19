@@ -11,8 +11,7 @@ This repository contains the MVP implementation of the VPP concept.
 
 Status: MVP Prototype
 License: MIT
-Live Demo: https://vpp-mvp.pages.dev/
-
+Live Demo:https://will-of-america.net/
 Why VPP?
 Many citizens, especially young people, hesitate to join physical demonstrations because of social pressure, employment concerns, or privacy risks.
 
