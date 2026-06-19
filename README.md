@@ -13,7 +13,7 @@ Status: MVP Prototype
 License: MIT
 Live Demo: https://will-of-america.net/
 
-##Why VPP?
+## Why VPP?
 
 Many citizens, especially young people, hesitate to join physical demonstrations because of social pressure, employment concerns, or privacy risks.
 
