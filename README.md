@@ -13,7 +13,7 @@ This repository contains the MVP implementation of the VPP concept.
 
 **Status:** MVP Prototype  
 **License:** MIT  
-**Live Demo:** https://will-of-america.net/
+**Live Demo (US Climate Pilot):** https://will-of-america.net/ - First pilot focused on climate change in the US
 
 ## Why VPP?
 
